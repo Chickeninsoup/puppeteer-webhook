@@ -1,0 +1,37 @@
+{
+  "manifest_version": 1,
+  "name": "网页内容抓取插件",
+  "description": "从多维表格 URL 列爬取网页正文并写入目标列",
+  "main": "index.js",
+  "icon": "https://sf3-fe-tos.pglstatp-toutiao.com/obj/fe-lark-op-public/logo.png",
+  "readme": "README.md",
+  "tags": ["爬虫", "多维表格"],
+  "template_id": "feishu-sheet-plugin",
+  "configurable": true,
+  "config_fields": [
+    {
+      "key": "tableId",
+      "name": "表格ID",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "viewId",
+      "name": "视图ID",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "sourceFieldId",
+      "name": "URL字段ID",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "targetFieldId",
+      "name": "结果写入字段ID",
+      "type": "string",
+      "required": true
+    }
+  ]
+}
