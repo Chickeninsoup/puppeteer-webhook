@@ -8,7 +8,7 @@ app.post('/crawl', async (req, res) => {
   const { url } = req.body;
 
   if (!url) {
-    return res.status(400).json({ error: 'Missing URL' });
+    return res.status(400).json({ error: 'Missing url' });
   }
 
   let browser;
@@ -34,9 +34,7 @@ app.post('/crawl', async (req, res) => {
   }
 });
 
-// Only for local test
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(3000, () => console.log('Running on http://localhost:3000'));
-}
-
-export default app;
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Puppeteer webhook is running on port ${PORT}`);
+});
