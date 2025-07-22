@@ -15,11 +15,25 @@ app.post('/crawl', async (req, res) => {
   try {
     browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox']
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-gpu',
+        '--disable-dev-shm-usage'
+      ],
+      timeout: 60000
     });
 
     const page = await browser.newPage();
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+
+    try {
+      await page.goto(url, {
+        waitUntil: 'domcontentloaded', // 或用 'networkidle2'
+        timeout: 60000
+      });
+    } catch (err) {
+      return res.status(504).json({ error: `Navigation failed: ${err.message}`, status: 'fail' });
+    }
 
     const content = await page.evaluate(() => {
       document.querySelectorAll('script, style').forEach(el => el.remove());
@@ -27,6 +41,7 @@ app.post('/crawl', async (req, res) => {
     });
 
     res.json({ text: content.slice(0, 5000), status: 'success' });
+
   } catch (err) {
     res.status(500).json({ error: err.message, status: 'fail' });
   } finally {
